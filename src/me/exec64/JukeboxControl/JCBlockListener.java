@@ -2,16 +2,19 @@ package me.exec64.JukeboxControl;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
-import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class JCBlockListener extends BlockListener {
+public class JCBlockListener implements Listener {
 	public JukeboxControl plugin;
 	
 	public JCBlockListener(JukeboxControl instance) {
 		plugin = instance;
 	}
 	
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockRedstoneChange(BlockRedstoneEvent event) {		
 
 		Block src = event.getBlock();
@@ -32,7 +35,7 @@ public class JCBlockListener extends BlockListener {
 			try {
 				jb = (Jukebox) block.getState();
 			} catch(ClassCastException e) {
-				plugin.log.info("JukeboxControl - Failed to cast block to jukebox.");
+				plugin.getLogger().warning("Failed to cast block to jukebox.");
 				return;
 			}
 			finally {
